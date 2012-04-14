@@ -6,29 +6,47 @@
 
 var config = require(__dirname + '/../config'),
 	express = require('express'),
-    db = require(__dirname + '/../db');
+    db = require(__dirname + '/../db'),
+    Resource = require('express-resource');
 
 
 module.exports = function() {
-	var app = express.createServer();
-
+    // initialize database.
     db();
 
-	app.get('/', function(req, res){
-        // db.AddFaction({name : 'faketion'}, function(err, fact) {
-        //     db.AddPlayer({
-        //         name : 'Namey',
-        //         faction : fact,
-        //         inventory : [],
-        //         stats : {
-        //             Health : 0,
-        //             Manliness: 1, 
-        //             Womanliness: 2
-        //         }}, function(err, player) {
-        //             res.send(player)
-        //     });
-        // });
-        res.send('poop!');
+	var app = express.createServer();
+
+	app.use(express.logger());
+	app.use(express.bodyParser());
+
+	// Set up error handlers
+	app.configure(function() {
+		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+	});
+
+	// Root fetcher thing
+	app.get('/', function(req, res, next) {
+		res.redirect('/admin/');
+	});
+	
+	// admin bitch!
+	app.get('/admin/*?', function(req, res, next) {
+		res.send('This was an administrative triumph');
+	});
+	
+	// api bitch!
+	app.resource('api/player', require('./api').player);
+	app.resource('api/item', require('./api').item);
+	app.resource('api/faction', require('./api').faction);
+	
+	// player bitzh!
+	app.get('/player/*?', function(req, res, next) {
+		res.send('This was a player triumph');
+	});
+	
+	// 404!
+	app.get('/*', function(req, res, next) {
+		res.send('What the fuck is this shit');
 	});
 
 

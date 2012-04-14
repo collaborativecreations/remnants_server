@@ -91,6 +91,24 @@ module.exports = function()
         };
     };
 
+    var IndexModel = function(model) {
+        return function(id, obj, callback){
+            model.find({}, ['_id'], function(err, keyCollection) {
+                if(!err)
+                {
+                    var keys = [];
+                    keyCollection.forEach(function(dbKey){
+                        console.log(dbKey);
+                        keys.append(dbKey);
+                    });
+                    callback(err, keys);
+                }
+                else
+                    callback(err);
+            });
+        };
+    };
+
     // now add all the methods.
     var Models = {
         'Player' : Player,
@@ -108,7 +126,8 @@ module.exports = function()
             'Add' : AddModel,
             'Get' : GetModel,
             'Update' : UpdateModel,
-            'Delete' : DeleteModel
+            'Delete' : DeleteModel,
+            'Index' : IndexModel
         };
         
         for(method in Methods) if(Methods.hasOwnProperty(method))

@@ -92,14 +92,13 @@ module.exports = function()
     };
 
     var IndexModel = function(model) {
-        return function(id, obj, callback){
+        return function(callback){
             model.find({}, ['_id'], function(err, keyCollection) {
                 if(!err)
                 {
                     var keys = [];
                     keyCollection.forEach(function(dbKey){
-                        console.log(dbKey);
-                        keys.append(dbKey);
+                        keys.push(dbKey._id);
                     });
                     callback(err, keys);
                 }

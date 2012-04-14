@@ -6,7 +6,8 @@
 	"main": "./src/index.js",
 	"dependencies" : {
 		"express": "*",
-		"mongoose": "*"
+		"mongoose": "*",
+		"flow": "0.2.2"
 	},
 	"repository": {
 		"type": "git",
@@ -17,3 +18,4 @@
 		"node": ">=0.6"
 	}
 }
+

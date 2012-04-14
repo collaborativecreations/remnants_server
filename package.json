@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"author": "Chris Vickery <chrisinajar@gmail.com>",
 	"description": "Remnants server",
+	"main": "./src/index.js",
 	"dependencies" : {
 		"CornerCut": "*"
 	},

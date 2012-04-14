@@ -5,7 +5,8 @@
 	"description": "Remnants server",
 	"main": "./src/index.js",
 	"dependencies" : {
-		"CornerCut": "*"
+		"express": "2.5.*",
+		"mongoose": "2.5.*"
 	},
 	"repository": {
 		"type": "git",

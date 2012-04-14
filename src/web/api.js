@@ -18,7 +18,7 @@ var Template = (function(name) {
 
             db[name].Add(req.body, send);
         },
-        delete: function(req, res, next) {
+        destroy: function(req, res, next) {
             var send = function(err) {
                 res.json({});
             };
@@ -50,4 +50,3 @@ module.exports = {
 	faction: Faction,
 	item: Item
 };
-

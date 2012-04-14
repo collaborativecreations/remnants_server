@@ -12,13 +12,12 @@ var Template = (function(name) {
 		},
         create: function(req, res, next) {
             var send = function(err, data) {
-                res.status = 201;
-                res.json(data);
+                res.json(data, 201);
             };
 
             db[name].Add(req.body, send);
         },
-        destroy: function(req, res, next) {
+        destroyp: function(req, res, next) {
             var send = function(err) {
                 res.json({});
             };
@@ -31,8 +30,12 @@ var Template = (function(name) {
             db[name].Get(req.params[name], send);
         },
         update: function(req, res, next) {
-            var send = function(err, obj) {
-                res.json(obj);
+            var send = function(err) {
+                if(!err){
+                    res.json({});
+                } else {
+                    res.send(404);
+                }
             };
             db[name].Update(req.params[name], req.body, send);
         }

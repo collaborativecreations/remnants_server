@@ -60,7 +60,7 @@ module.exports = function()
 
     var AddModel = function(model) {
         return function(obj, callback) {
-            modeledObject = new model(obj);
+            var modeledObject = new model(obj);
             modeledObject.save(function(err){
                 callback(err, modeledObject);
             });
@@ -87,7 +87,11 @@ module.exports = function()
     var UpdateModel = function(model) {
         return function(id, obj, callback) {
             options = {};
-            model.updateById(id, obj, options, callback);
+            model.update({'_id':id}, obj, options, function(err, num){
+                if(num != 1)
+                    err = 'whoa no object.';
+                callback(err);
+            });
         };
     };
 

@@ -117,9 +117,7 @@ module.exports = function()
     };
 
     for(model in Models) if(Models.hasOwnProperty(model)) {
-        console.log('creating methods for ' + model);
         var AddMethod = function(prefix, func) {
-            console.log('Adding ' + prefix + model);
             module.exports[prefix + model] = func(Models[model]);
         };
         var Methods = {

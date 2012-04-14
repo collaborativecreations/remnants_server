@@ -1,6 +1,6 @@
 module.exports = {
 	database: {
-		address: 'localhost'
+		address: 'localhost',
 		port: 27017
 	}
 };

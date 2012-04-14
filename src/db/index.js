@@ -116,8 +116,10 @@ module.exports = function()
     };
 
     for(model in Models) if(Models.hasOwnProperty(model)) {
+        module.exports[model] = {};
+
         var AddMethod = function(prefix, func) {
-            module.exports[prefix + model] = func(Models[model]);
+            module.exports[model][prefix] = func(Models[model]);
         };
         var Methods = {
             'Add' : AddModel,

@@ -8,7 +8,7 @@ var Template = (function(name) {
             var send = function(err, data) {
                 res.json({'list': data})
             };
-            db['Index' + name](send);
+            db[name].Index(send);
 		},
         create: function(req, res, next) {
             var send = function(err, data) {
@@ -16,25 +16,25 @@ var Template = (function(name) {
                 res.json(data);
             };
 
-            db['Add' + name](req.body, send);
+            db[name].Add(req.body, send);
         },
         delete: function(req, res, next) {
             var send = function(err) {
                 res.json({});
             };
-            db['Delete' + name](req.params[name], send);
+            db[name].Delete(req.params[name], send);
         },
         show: function(req, res, next) {
             var send = function(err, obj) {
                 res.json(obj);
             };
-            db['Get' + name](req.params[name], send);
+            db[name].Get(req.params[name], send);
         },
         update: function(req, res, next) {
             var send = function(err, obj) {
                 res.json(obj);
             };
-            db['Update' + name](req.params[name], req.body, send);
+            db[name].Update(req.params[name], req.body, send);
         }
 	};
 });

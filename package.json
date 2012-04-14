@@ -13,6 +13,6 @@
 	},
 	"license": "FreeBSD",
 	"engine": {
-		"node": ">=0.4"
+		"node": ">=0.6"
 	}
 }

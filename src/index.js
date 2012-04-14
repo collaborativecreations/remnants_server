@@ -9,9 +9,13 @@ remnantsweb();
 var tty = require("tty");
 
 process.openStdin().on("keypress", function(chunk, key) {
-	if(key && key.name === "c" && key.ctrl) {
+	if (!key || !key.name)
+		return;
+	if (key.name === "c" && key.ctrl) {
 		console.log("^C -- Killing");
 		process.exit();
+	} else if (key.name === "enter") {
+		console.log();
 	}
 });
 

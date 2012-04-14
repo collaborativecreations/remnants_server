@@ -8,7 +8,8 @@
 		"express": "*",
 		"express-resource": "*",
 		"mongoose": "*",
-		"flow": "0.2.2"
+		"flow": "0.2.2",
+        "socket.io": "*"
 	},
 	"repository": {
 		"type": "git",

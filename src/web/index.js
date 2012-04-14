@@ -13,10 +13,9 @@ module.exports = function() {
 
 	app.use(express.logger());
 	app.use(express.bodyParser());
-	//app.use(express.router());
 
 	// Set up error handlers
-	app.configure(function(){
+	app.configure(function() {
 		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 	});
 
@@ -31,9 +30,7 @@ module.exports = function() {
 	});
 	
 	// api bitch!
-	app.get('/api/*?', function(req, res, next) {
-		res.send('This was an api triumph');
-	});
+	app.get('/api/*?', require('./api'));
 	
 	// player bitzh!
 	app.get('/player/*?', function(req, res, next) {

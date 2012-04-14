@@ -31,7 +31,9 @@ module.exports = function() {
 	});
 	
 	// api bitch!
-	app.resource('api', require('./api'));
+	app.resource('api/player', require('./api').player);
+	app.resource('api/item', require('./api').item);
+	app.resource('api/faction', require('./api').faction);
 	
 	// player bitzh!
 	app.get('/player/*?', function(req, res, next) {
@@ -40,7 +42,7 @@ module.exports = function() {
 	
 	// 404!
 	app.get('/*', function(req, res, next) {
-		res.redirect('http://en.wikipedia.org/wiki/HTTP_404');
+		res.send('What the fuck is this shit');
 	});
 
 	app.listen(config.port);

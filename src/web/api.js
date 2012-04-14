@@ -7,14 +7,40 @@ var Template = (function(name) {
 		index: function(req, res, next) {
             var send = function(err, data) {
                 res.json({'list': data})
-            }
-            db['Index' + name](send)
+            };
+            db['Index' + name](send);
 		},
+        create: function(req, res, next) {
+            var send = function(err, data) {
+                res.status = 201;
+                res.json(data);
+            };
+
+            db['Add' + name](req.body, send);
+        },
+        delete: function(req, res, next) {
+            var send = function(err) {
+                res.json({});
+            };
+            db['Delete' + name](req.params[name], send);
+        },
+        show: function(req, res, next) {
+            var send = function(err, obj) {
+                res.json(obj);
+            };
+            db['Get' + name](req.params[name], send);
+        },
+        update: function(req, res, next) {
+            var send = function(err, obj) {
+                res.json(obj);
+            };
+            db['Update' + name](req.params[name], req.body, send);
+        }
 	};
 });
 
 // Object specific overrides go here
-var Player = Template('Player');
+var Player = Template('player');
 
 var Faction = Template('faction');
 var Item = Template('item');

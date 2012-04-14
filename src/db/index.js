@@ -110,9 +110,9 @@ module.exports = function()
 
     // now add all the methods.
     var Models = {
-        'Player' : Player,
-        'Faction' : Faction,
-        'Item' : Item
+        'player' : Player,
+        'faction' : Faction,
+        'item' : Item
     };
 
     for(model in Models) if(Models.hasOwnProperty(model)) {

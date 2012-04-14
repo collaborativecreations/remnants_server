@@ -5,7 +5,8 @@
  */
 
 var config = require(__dirname + '/../config'),
-	express = require('express');
+	express = require('express'),
+	Resource = require('express-resource');
 
 
 module.exports = function() {
@@ -30,7 +31,7 @@ module.exports = function() {
 	});
 	
 	// api bitch!
-	app.get('/api/*?', require('./api'));
+	app.resource('api', require('./api'));
 	
 	// player bitzh!
 	app.get('/player/*?', function(req, res, next) {

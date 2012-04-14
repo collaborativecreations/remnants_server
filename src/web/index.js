@@ -4,16 +4,20 @@
  *
  */
 
-var CornerCut = require('CornerCut');
-var config = require(__dirname + '/../config');
+var config = require(__dirname + '/../config'),
+	express = require('express');
 
 
 module.exports = function() {
-	var cornercut = new CornerCut;
+	var app = express.createServer();
 
-	cornercut.add(require('./routes')());
+	app.get('/', function(req, res){
+		res.send('This was a triumph');
+	});
 
-	cornercut.createServer(config.port);
-    console.log('listening on port ' + config.port);
+	app.listen(config.port);
+	console.log('listening on port ' + config.port);
+	
+	return app;
 };
 

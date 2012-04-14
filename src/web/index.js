@@ -7,6 +7,7 @@
 var config = require(__dirname + '/../config'),
 	express = require('express'),
     db = require(__dirname + '/../db'),
+    socketio = require('socket.io'),
     Resource = require('express-resource');
 
 
@@ -58,6 +59,15 @@ module.exports = function() {
 
 
 	app.listen(config.port);
+    io = socketio.listen(app);
+    
+    io.sockets.on('connection', function(socket){
+        var dumpdb = function(everything) {
+            socket.emit('db', everything);
+        };
+        db.GetEverything(dumpdb);
+    });
+    
 	console.log('listening on port ' + config.port);
 	
 	return app;

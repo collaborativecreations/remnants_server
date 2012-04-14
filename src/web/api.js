@@ -1,21 +1,16 @@
 // handler for /api/*
 
-var Player = {
-	index: function(req, res, next) {
-		res.send('Index for Player');
-	},
-}
-var Faction = {
-	index: function(req, res, next) {
-		res.send('Index for Faction');
-	},
-}
-var Item = {
-	index: function(req, res, next) {
-		res.send('Index for Item');
-	},
-}
+var Template = (function(name) {
+	return {	
+		index: function(req, res, next) {
+			res.send('Index for '+name);
+		},
+	};
+});
 
+var Player = Template('player');
+var Faction = Template('faction');
+var Item = Template('item');
 
 module.exports = {
 	player: Player,

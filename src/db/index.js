@@ -108,6 +108,23 @@ module.exports = function()
         };
     };
 
+    var GetAllModels = function(model) {
+        return function(callback) {
+            model.find({}, function(err, coll) {
+                if(!err)
+                {
+                    var objs = [];
+                    coll.forEach(function(obj) {
+                        objs.push(obj);
+                    });
+                    callback(err, objs);
+                }
+                else
+                    callback(err);
+            });
+        };
+    };
+
     // now add all the methods.
     var Models = {
         'player' : Player,
@@ -115,7 +132,7 @@ module.exports = function()
         'item' : Item
     };
 
-    for(model in Models) if(Models.hasOwnProperty(model)) {
+    for(var model in Models) if(Models.hasOwnProperty(model)) {
         module.exports[model] = {};
 
         var AddMethod = function(prefix, func) {
@@ -129,7 +146,25 @@ module.exports = function()
             'Index' : IndexModel
         };
         
-        for(method in Methods) if(Methods.hasOwnProperty(method))
+        for(var method in Methods) if(Methods.hasOwnProperty(method))
             AddMethod(method, Methods[method]);
     }
+    module.exports.GetEverything = function(callback) {
+        everything = {};
+        var self = this;
+        var got = 0;
+        var need = 0;
+        for (var model in Models) if (Models.hasOwnProperty(model)) {
+            need ++;
+            (function () {
+                var mod = model; // grab a copy for this closure
+                var addToEverything = function(err, list) {
+                    everything[mod] = list;
+                    got ++;
+                    if(got == need)
+                        callback(everything);
+                };
+                GetAllModels(Models[mod])(addToEverything);
+            })()}
+    };
 };

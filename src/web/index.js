@@ -38,6 +38,13 @@ module.exports = function() {
 	app.resource('api/player', require('./api').player);
 	app.resource('api/item', require('./api').item);
 	app.resource('api/faction', require('./api').faction);
+    app.get('/api/everything', function(req, res, next) {
+        console.log('ahhh!');
+        var send = function(everything) {
+            res.send(everything);
+        };        
+        db.GetEverything(send);
+    });
 	
 	// player bitzh!
 	app.get('/player/*?', function(req, res, next) {

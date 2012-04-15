@@ -6,26 +6,39 @@ var Template = (function(name) {
 	return {	
 		index: function(req, res, next) {
             var send = function(err, data) {
-                res.json({'list': data})
+                if(err)
+                    res.send(404);
+                else
+                    res.json({'list': data})
             };
             db[name].Index(send);
 		},
         create: function(req, res, next) {
             var send = function(err, data) {
-                res.json(data, 201);
+                if(err)
+                    res.send(400);
+                else
+                    res.json(data, 201);
+                
             };
 
             db[name].Add(req.body, send);
         },
-        destroyp: function(req, res, next) {
+        destroy: function(req, res, next) {
             var send = function(err) {
-                res.json({});
+                if(err)
+                    res.send(400);
+                else
+                    res.json({});
             };
             db[name].Delete(req.params[name], send);
         },
         show: function(req, res, next) {
             var send = function(err, obj) {
-                res.json(obj);
+                if(err)
+                    res.send(404);
+                else
+                    res.json(obj);
             };
             db[name].Get(req.params[name], send);
         },

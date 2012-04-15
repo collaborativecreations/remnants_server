@@ -25,33 +25,33 @@ module.exports = function()
     };
 
     var PlayerSchema = new Schema({
-        name: String,
+        name: {type : String, required : true},
         faction: ref('Faction'),
-	    inventory: [ref('Item')],
-	    stats: {
+	    inventory: {type: [ref('Item')], default: []},
+	    stats: {type: {
 		    Health: Number,
             Manliness: Number,
             Womanliness: Number
-	    }
+	    }, required: true}
     });
     
     var FactionSchema = new Schema({
-        name: String,
+        name: {type: String, required: true}
     });
 
     var ItemSchema = new Schema({
-	    name: String,
+	    name: {type: String, required: true},
 	    type: {type: String, enum: [
             "armor",
             "weapon",
             "ammo",
             "onetime",
             "quest"
-        ]},
-	    buffs: [{
+        ], default: "quest"},
+	    buffs: {type: [{
 		    stat: String,
 		    buff: Number
-        }]
+        }], default: []}
     });
 
     var Player = mongoose.model('Player', PlayerSchema);

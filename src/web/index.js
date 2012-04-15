@@ -45,7 +45,6 @@ module.exports = function() {
 	app.resource('api/item', require('./api').item);
 	app.resource('api/faction', require('./api').faction);
     app.get('/api/everything', function(req, res, next) {
-        console.log('ahhh!');
         var send = function(everything) {
             res.send(everything);
         };        
@@ -57,15 +56,29 @@ module.exports = function() {
 		res.send('What the fuck is this shit');
 	});
 
-
 	app.listen(config.port);
-    io = socketio.listen(app);
+
+    // setup the socket
+    var io = socketio.listen(app);
+
+    var clients = [];
     
     io.sockets.on('connection', function(socket){
+        clients.push(socket);
         var dumpdb = function(everything) {
             socket.emit('db', everything);
         };
         db.GetEverything(dumpdb);
+        socket.on('disconnect', function(ev){
+            var sock = socket;
+            for(var i = 0; i < clients.length; ++i) {
+                if(clients[i] == sock)
+                {
+                    clients.splice(i, i);
+                    return;
+                }
+            }
+        });
     });
     
 	console.log('listening on port ' + config.port);

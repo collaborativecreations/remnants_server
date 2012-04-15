@@ -30,11 +30,16 @@ module.exports = function() {
 		res.redirect('/admin/');
 	});
 	
-	// admin bitch!
-	app.get('/admin/*?', function(req, res, next) {
-		res.send('This was an administrative triumph');
-	});
+    // static up.
+    var doStatic = function(path) {
+     	app.get('/' + path + '/*', function(req, res, next) {
+            req.url = '/' + req.params[0]
+            express.static(__dirname + '/' + path)(req,res,next);
+        })};
 	
+    doStatic('admin');
+    doStatic('player');
+
 	// api bitch!
 	app.resource('api/player', require('./api').player);
 	app.resource('api/item', require('./api').item);
@@ -46,11 +51,6 @@ module.exports = function() {
         };        
         db.GetEverything(send);
     });
-	
-	// player bitzh!
-	app.get('/player/*?', function(req, res, next) {
-		res.send('This was a player triumph');
-	});
 	
 	// 404!
 	app.get('/*', function(req, res, next) {

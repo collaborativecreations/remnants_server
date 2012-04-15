@@ -81,6 +81,17 @@ module.exports = function() {
         });
     });
     
+    var connectLog = function(verb) {
+        db.LogStream.on(verb, function(model, obj) {
+            for(var client in clients) {
+                clients[client].emit('db' + verb, model, obj);
+            }
+        });	
+    };
+
+    connectLog('save');
+    connectLog('remove');
+
 	console.log('listening on port ' + config.port);
 	
 	return app;

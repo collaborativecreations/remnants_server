@@ -7,6 +7,7 @@
 
 // define local variables up in here.
 var mongoose = require('mongoose'),
+    events = require('events'),
     Schema = mongoose.Schema,
     inited = false;
 
@@ -136,8 +137,21 @@ module.exports = function()
         'item' : Item
     };
 
+    module.exports.LogStream = new events.EventEmitter();
+
     for(var model in Models) if(Models.hasOwnProperty(model)) {
-        module.exports[model] = {};
+        module.exports[model] = new events.EventEmitter();
+        
+        var doMiddleWare = function(verb) {
+            Models[model].schema.pre(verb, function(next) {
+                module.exports[model].emit(verb, this);
+                module.exports.LogStream.emit(verb, model, this);
+                next();
+            });            
+        };
+
+        doMiddleWare('save');
+        doMiddleWare('remove');
 
         var AddMethod = function(prefix, func) {
             module.exports[model][prefix] = func(Models[model]);
@@ -150,8 +164,11 @@ module.exports = function()
             'Index' : IndexModel
         };
         
+        // add all the CRUD methods.
         for(var method in Methods) if(Methods.hasOwnProperty(method))
             AddMethod(method, Methods[method]);
+        
+        
     }
     module.exports.GetEverything = function(callback) {
         everything = {};
